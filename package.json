@@ -1,0 +1,69 @@
+{
+  "name": "instant-react-core",
+  "version": "0.0.9",
+  "description": "Core `instant-react` functionality, including components, forms, redux modules and utilities.",
+  "notes": "Ensure `npm link` and `npm publish` are executed from the `lib` directory.",
+  "scripts": {
+    "test": "mocha --require babel-core/register --require @babel/polyfill",
+    "copy:css": "cpx src/components/*.css lib/components",
+    "copy:package": "cpx package.json lib",
+    "prebuild": "rimraf lib",
+    "build": "npm run copy:css && npm run copy:package && babel ./src -d ./lib",
+    "build:watch": "babel -w ./src -d ./lib",
+    "link": "npm run build && cd lib && npm link",
+    "release": "npm run build && cd lib && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjmyles/instant-react-core.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Craig Myles",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "@material-ui/core": "*",
+    "@material-ui/icons": "*"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "babel-plugin-react-css-modules": "^4.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.1.6",
+    "@types/googlemaps": "^3.30.16",
+    "@types/markerclustererplus": "^2.1.33",
+    "cpx": "^1.5.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "firebase": "^5.5.9",
+    "instant-request": "0.0.7",
+    "material-ui-pickers": "^1.0.0-rc.17",
+    "moment": "^2.22.2",
+    "numeral": "^2.0.6",
+    "prop-types": "^15.6.2",
+    "react-firebase-file-uploader": "^2.4.2",
+    "react-google-maps": "^9.4.5",
+    "react-helmet": "^5.2.0",
+    "react-image": "^1.5.1",
+    "react-phone-number-input": "^2.2.17",
+    "react-places-autocomplete": "^7.2.0",
+    "react-redux": "^5.1.1",
+    "react-router-dom": "^4.3.1",
+    "react-signature-canvas": "^1.0.0-alpha.1",
+    "redux": "^4.0.1",
+    "redux-form": "^7.4.2",
+    "rimraf": "^2.6.2"
+  }
+}
