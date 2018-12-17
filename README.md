@@ -1,6 +1,6 @@
 # Instant React Core
 
-Core `instant-react` functionality, including components, forms, redux modules and utilities.
+Core `instant-react` functionality, including components, forms, redux modules, firebase connectivity and utilities.
 
 ## Table of Contents
 
