@@ -1,14 +1,15 @@
 {
   "name": "instant-react-core",
-  "version": "0.0.1",
-  "description": "Core `instant-react` functionality, including components, forms, redux modules, firebase connectivity and utilities.",
+  "version": "0.0.3",
+  "description": "Core [`instant-react`](https://github.com/cjmyles/instant-react) functionality, including components, forms, redux modules, firebase connectivity and utilities.",
   "notes": "Ensure `npm link` and `npm publish` are executed from the `lib` directory.",
   "scripts": {
     "test": "mocha --require babel-core/register --require @babel/polyfill",
     "copy:css": "cpx src/components/*.css lib/components",
     "copy:package": "cpx package.json lib",
+    "copy:readme": "cpx README.md lib",
     "prebuild": "rimraf lib",
-    "build": "npm run copy:css && npm run copy:package && babel ./src -d ./lib",
+    "build": "npm run copy:css && npm run copy:package && npm run copy:readme && babel ./src -d ./lib",
     "build:watch": "babel -w ./src -d ./lib",
     "link": "npm run build && cd lib && npm link",
     "release": "npm run build && cd lib && npm publish"
@@ -18,7 +19,13 @@
     "url": "git+https://github.com/cjmyles/instant-react-core.git"
   },
   "keywords": [
-    "javascript"
+    "react",
+    "react-component",
+    "material-ui",
+    "redux",
+    "redux-thunk",
+    "redux-form",
+    "firebase"
   ],
   "author": "Craig Myles",
   "license": "MIT",
