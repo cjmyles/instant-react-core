@@ -1,6 +1,6 @@
 # Instant React Core
 
-Core [`instant-react`](https://github.com/cjmyles/instant-react) functionality, including components, forms, redux modules, firebase connectivity and utilities.
+Core [`instant-react`](https://github.com/cjmyles/instant-react) functionality, including components, forms, Redux modules, utilities and [Firebase](https://firebase.google.com/) integration.
 
 ## Table of Contents
 
