@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { decorate } from '../utils/component';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { auth } from '../utils/firebase';
 
 import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,9 +11,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@material-ui/core/Icon';
-import Divider from '@material-ui/core/Divider';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 
 const drawerWidth = 240;
 
@@ -35,10 +31,6 @@ const styles = theme => ({
 });
 
 class SideBar extends Component {
-  handleClickSignOut = () => {
-    auth.signOut();
-  };
-
   renderLinks(links) {
     // Note: The `NavLink` component erroneously adds the `active` class to more than one element, so we use `Link` instead and manually set the `active` class
     const { classes } = this.props;
@@ -49,8 +41,9 @@ class SideBar extends Component {
           <ListItem
             key={index}
             button
-            component={Link}
-            to={link.to}
+            component={link.to ? Link : null}
+            to={link.to || null}
+            onClick={link.action || null}
             className={classNames(
               classes.listItem,
               link.to === this.props.match.path ? 'active' : ''
@@ -70,39 +63,16 @@ class SideBar extends Component {
     );
   }
 
-  renderAuthOptions() {
-    const { classes } = this.props;
-
-    return (
-      <List>
-        <ListItem
-          button
-          component={Link}
-          to="/profile"
-          className={classes.listItem}
-        >
-          <ListItemIcon>
-            <AccountBoxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-
-        <ListItem
-          button
-          className={classes.listItem}
-          onClick={this.handleClickSignOut}
-        >
-          <ListItemIcon>
-            <PowerIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sign Out" />
-        </ListItem>
-      </List>
-    );
-  }
-
   render() {
-    const { variant, links, mobileLinks, open, classes } = this.props;
+    const {
+      variant,
+      authenticatedLinks,
+      unauthenticatedLinks,
+      mobileAuthenticatedLinks,
+      mobileUnauthenticatedLinks,
+      open,
+      classes,
+    } = this.props;
 
     return (
       <Fragment>
@@ -120,7 +90,10 @@ class SideBar extends Component {
             >
               <div className={classes.sidebarWrapper}>
                 <div className={classes.toolbar} />
-                {this.renderLinks(links)}
+
+                {this.props.auth.isAuthenticated
+                  ? this.renderLinks(authenticatedLinks)
+                  : this.renderLinks(unauthenticatedLinks)}
               </div>
             </Drawer>
           </Hidden>
@@ -138,13 +111,9 @@ class SideBar extends Component {
             }}
           >
             <div className={classes.sidebarWrapper}>
-              {this.renderLinks(mobileLinks)}
-              {auth.isAuthenticated && (
-                <Fragment>
-                  <Divider />
-                  {this.renderAuthOptions()}
-                </Fragment>
-              )}
+              {this.props.auth.isAuthenticated
+                ? this.renderLinks(mobileAuthenticatedLinks)
+                : this.renderLinks(mobileUnauthenticatedLinks)}
             </div>
           </Drawer>
         </Hidden>
@@ -155,9 +124,12 @@ class SideBar extends Component {
 
 SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   variant: PropTypes.string,
-  links: PropTypes.array,
-  mobileLinks: PropTypes.array,
+  authenticatedLinks: PropTypes.array.isRequired,
+  unauthenticatedLinks: PropTypes.array.isRequired,
+  mobileAuthenticatedLinks: PropTypes.array.isRequired,
+  mobileUnauthenticatedLinks: PropTypes.array.isRequired,
 };
 
-export default decorate(styles, { withRouter: true })(SideBar);
+export default decorate(styles, 'auth', { withRouter: true })(SideBar);
